@@ -63,14 +63,17 @@ internal class SecureDFUPacket: DFUCharacteristic {
                 packetSize = 20 // Default MTU is 23.
                 return
             }
+
+            logger.v("Sanity check. Setting packet size to 20.")
+            packetSize = 20 // Default MTU is 23.
             
-            // Make the packet size the first word-aligned value that's less than the maximum.
-            packetSize = UInt32(peripheral.maximumWriteValueLength(for: .withoutResponse)) & 0xFFFFFFFC
-            if packetSize > 20 {
-                // MTU is 3 bytes larger than payload
-                // (1 octet for Op-Code and 2 octets for Att Handle).
-                logger.v("MTU set to \(packetSize + 3)")
-            }
+//            // Make the packet size the first word-aligned value that's less than the maximum.
+//            packetSize = UInt32(peripheral.maximumWriteValueLength(for: .withoutResponse)) & 0xFFFFFFFC
+//            if packetSize > 20 {
+//                // MTU is 3 bytes larger than payload
+//                // (1 octet for Op-Code and 2 octets for Att Handle).
+//                logger.v("MTU set to \(packetSize + 3)")
+//            }
         } else {
             packetSize = 20 // Default MTU is 23.
         }
